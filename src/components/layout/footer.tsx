@@ -4,8 +4,10 @@ import { COMPANY_NAME, CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/constants';
 
 const navLinks = [
   { href: '/products', label: 'Products' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact Us' },
+  { href: '/faq', label: 'FAQ' },
 ];
 
 export function Footer() {

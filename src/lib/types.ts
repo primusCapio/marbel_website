@@ -7,4 +7,7 @@ export type Product = {
   description: string;
   longDescription: string;
   images: string[];
+  pricePerSqFt: number;
+  finish: string;
+  color: string;
 };

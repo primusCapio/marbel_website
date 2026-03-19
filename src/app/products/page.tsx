@@ -2,8 +2,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { products } from "@/lib/data"
 import { ProductCard } from "@/components/products/product-card"
 import type { Category } from "@/lib/types"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 const categories: Category[] = ["Marble", "Granite", "Kota Stone"];
+const finishes = ["Polished", "Honed", "Leathered", "Brushed", "Natural"];
+const colors = ["White", "Black", "Green", "Blue", "Brown", "Gold", "Grey"];
 
 export const metadata = {
   title: 'Our Products',
@@ -20,7 +24,69 @@ export default function ProductsPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="Marble" className="mt-12">
+      <div className="mt-12">
+        {/* Desktop Filters */}
+        <div className="hidden md:flex flex-wrap gap-4 items-center justify-center p-4 border-b">
+          <span className="font-semibold">Filter by:</span>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Color" />
+            </SelectTrigger>
+            <SelectContent>
+              {colors.map(color => <SelectItem key={color} value={color}>{color}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Finish" />
+            </SelectTrigger>
+            <SelectContent>
+              {finishes.map(finish => <SelectItem key={finish} value={finish}>{finish}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Price" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="low-high">Low to High</SelectItem>
+              <SelectItem value="high-low">High to Low</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Mobile Filters */}
+        <div className="md:hidden mt-8">
+          <Accordion type="single" collapsible>
+            <AccordionItem value="filters">
+              <AccordionTrigger className="text-lg font-semibold">Filters</AccordionTrigger>
+              <AccordionContent className="space-y-4 p-2">
+                <Select>
+                  <SelectTrigger><SelectValue placeholder="Color" /></SelectTrigger>
+                  <SelectContent>
+                     {colors.map(color => <SelectItem key={color} value={color}>{color}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+                <Select>
+                  <SelectTrigger><SelectValue placeholder="Finish" /></SelectTrigger>
+                  <SelectContent>
+                     {finishes.map(finish => <SelectItem key={finish} value={finish}>{finish}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+                 <Select>
+                  <SelectTrigger><SelectValue placeholder="Price" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low-high">Low to High</SelectItem>
+                    <SelectItem value="high-low">High to Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </div>
+
+      <Tabs defaultValue="Marble" className="mt-8">
         <TabsList className="grid w-full grid-cols-3 max-w-md mx-auto h-12">
           {categories.map((category) => (
             <TabsTrigger key={category} value={category} className="text-md">{category}</TabsTrigger>

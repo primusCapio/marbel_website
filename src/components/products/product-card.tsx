@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 type ProductCardProps = {
@@ -27,14 +27,16 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
         <CardHeader>
-          <div className="flex justify-between items-start gap-2">
-            <CardTitle className="text-xl">{product.name}</CardTitle>
-            <Badge variant="outline" className="flex-shrink-0">{product.category}</Badge>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-grow flex flex-col">
+          <CardTitle className="text-xl">{product.name}</CardTitle>
           <CardDescription>{product.description}</CardDescription>
+        </CardHeader>
+        <CardContent className="flex-grow">
+          <p className="text-lg font-semibold text-primary">₹{product.pricePerSqFt.toLocaleString('en-IN')} / sq.ft.</p>
         </CardContent>
+        <CardFooter>
+            <Badge variant="outline">{product.finish}</Badge>
+            <Badge variant="outline" className="ml-2">{product.color}</Badge>
+        </CardFooter>
       </Card>
     </Link>
   );
