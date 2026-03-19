@@ -6,7 +6,6 @@ const navLinks = [
   { href: '/products', label: 'Products' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact Us' },
-  { href: '/advisor', label: 'AI Advisor' },
 ];
 
 export function Footer() {

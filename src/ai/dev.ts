@@ -1,4 +1,1 @@
-import { config } from 'dotenv';
-config();
-
-import '@/ai/flows/ai-stone-advisor-flow.ts';
+// This file has been cleared as the feature is removed.

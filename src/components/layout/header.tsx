@@ -12,7 +12,6 @@ import { COMPANY_NAME } from '@/lib/constants';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Products' },
-  { href: '/advisor', label: 'AI Advisor' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
 ];
