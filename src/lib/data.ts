@@ -1,0 +1,55 @@
+import type { Product, Category } from "@/lib/types";
+
+export const products: Product[] = [
+  {
+    id: "carrara-marble",
+    name: "Carrara Marble",
+    category: "Marble",
+    description: "Classic Italian marble with soft, feathery veining.",
+    longDescription: "Sourced from the heart of Italy, Carrara Marble is renowned for its classic beauty and timeless elegance. Its white to blue-grey background is adorned with soft, feathery veining, making it a popular choice for everything from sculptures to countertops and flooring. It offers a luxurious feel without being overpowering.",
+    images: ["marble-1"],
+  },
+  {
+    id: "calacatta-gold-marble",
+    name: "Calacatta Gold Marble",
+    category: "Marble",
+    description: "Luxurious marble with dramatic gold and grey veining.",
+    longDescription: "Calacatta Gold Marble is the epitome of luxury. This rare stone features a bright white background with thick, dramatic veins in shades of gold and grey. It's a statement piece, perfect for high-end applications like feature walls, book-matched backsplashes, and grand kitchen islands.",
+    images: ["marble-2"],
+  },
+  {
+    id: "black-galaxy-granite",
+    name: "Black Galaxy Granite",
+    category: "Granite",
+    description: "Striking black granite with small, reflective specks.",
+    longDescription: "Black Galaxy Granite offers a deep, solid black canvas punctuated by small, reflective copper- or gold-colored flecks. This durable and striking stone is ideal for creating a bold, modern look in kitchens and bathrooms. Its hardness makes it resistant to scratches and heat.",
+    images: ["granite-1"],
+  },
+  {
+    id: "ubatuba-granite",
+    name: "Ubatuba Granite",
+    category: "Granite",
+    description: "Elegant dark green granite with flecks of gold and black.",
+    longDescription: "Ubatuba Granite is a finely textured stone quarried in Brazil. It features a deep, elegant dark green color, almost black, with subtle flecks of gold, brown, and green. It's a versatile choice that pairs well with both light and dark cabinetry, offering a sophisticated and natural aesthetic.",
+    images: ["granite-2"],
+  },
+  {
+    id: "blue-kota-stone",
+    name: "Blue Kota Stone",
+    category: "Kota Stone",
+    description: "A popular limestone known for its blue-green hue.",
+    longDescription: "Kota Stone is a fine-grained variety of limestone, quarried in Kota, Rajasthan, India. The blue variant has a distinctive greenish-blue hue that brings a cool, natural feel to any space. It's known for its toughness and is an excellent, affordable choice for flooring, walkways, and patios.",
+    images: ["kota-1"],
+  },
+  {
+    id: "brown-kota-stone",
+    name: "Brown Kota Stone",
+    category: "Kota Stone",
+    description: "Warm, earthy brown limestone for rustic appeal.",
+    longDescription: "The brown variant of Kota Stone offers a warm, earthy palette ranging from light to dark brown. Its rustic charm and excellent durability make it suitable for both interior and exterior applications. When polished, it reveals a beautiful sheen, enhancing its natural texture.",
+    images: ["kota-2"],
+  },
+];
+
+export const getProductById = (id: string): Product | undefined => products.find(p => p.id === id);
+export const getProductsByCategory = (category: Category): Product[] => products.filter(p => p.category === category);

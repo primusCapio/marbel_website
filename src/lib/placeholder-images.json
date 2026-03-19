@@ -1,3 +1,52 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "imageUrl": "https://picsum.photos/seed/hero/1920/1080",
+      "description": "A beautiful slab of marble used as a kitchen island.",
+      "imageHint": "marble kitchen"
+    },
+    {
+      "id": "about-us",
+      "imageUrl": "https://picsum.photos/seed/about/1200/800",
+      "description": "A workshop showing the process of cutting large stone slabs.",
+      "imageHint": "stone workshop"
+    },
+    {
+      "id": "marble-1",
+      "imageUrl": "https://picsum.photos/seed/marble1/600/400",
+      "description": "Close-up of Carrara marble with its characteristic white and gray veining.",
+      "imageHint": "carrara marble"
+    },
+    {
+      "id": "marble-2",
+      "imageUrl": "https://picsum.photos/seed/marble2/600/400",
+      "description": "Elegant Calacatta Gold marble with dramatic gold and gray veins.",
+      "imageHint": "calacatta marble"
+    },
+    {
+      "id": "granite-1",
+      "imageUrl": "https://picsum.photos/seed/granite1/600/400",
+      "description": "Black Galaxy granite with small, reflective specks.",
+      "imageHint": "black granite"
+    },
+    {
+      "id": "granite-2",
+      "imageUrl": "https://picsum.photos/seed/granite2/600/400",
+      "description": "Ubatuba granite, a dark green stone with hints of gold and black.",
+      "imageHint": "green granite"
+    },
+    {
+      "id": "kota-1",
+      "imageUrl": "https://picsum.photos/seed/kota1/600/400",
+      "description": "Smooth, blue-green Kota stone tiles.",
+      "imageHint": "kota stone"
+    },
+    {
+      "id": "kota-2",
+      "imageUrl": "https://picsum.photos/seed/kota2/600/400",
+      "description": "A floor laid with polished brown Kota stone.",
+      "imageHint": "brown stone"
+    }
+  ]
 }
