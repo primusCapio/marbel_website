@@ -3,7 +3,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, use } from 'react';
 
 import { getProductById, products } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -24,7 +24,7 @@ type Props = {
 // For now, we'll focus on the client component logic. We can extract a server component for metadata later.
 
 export default function ProductDetailPage({ params }: Props) {
-  const product = getProductById(params.id);
+  const product = getProductById(use(params).id);
   const { addToCart } = useCart();
   const [area, setArea] = useState(100);
 
