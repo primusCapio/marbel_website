@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = "918160197878"; // Replace with actual number
+export const WHATSAPP_NUMBER = "918160197878";
 export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello!%20I'm%20interested%20in%20your%20products.`;
 export const CONTACT_EMAIL = "contact@saalimstore.com";
 export const CONTACT_PHONE = "+91 81601 97878";
@@ -6,3 +6,11 @@ export const MAP_LOCATION_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12
 export const COMPANY_NAME = "Saalim Store";
 export const TAGLINE = "India's Trusted Marble & Kota Stone Supplier";
 export const ADDRESS = "123 Stone Street, Rock City, 12345";
+
+// EmailJS Configuration - Replace with your actual credentials
+export const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+export const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+export const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+
+// The email address that receives order notifications
+export const ADMIN_EMAIL = "contact@saalimstore.com";

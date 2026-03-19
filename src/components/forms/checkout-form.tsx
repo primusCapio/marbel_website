@@ -20,6 +20,8 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useCart } from '@/hooks/use-cart';
 import { useRouter } from 'next/navigation';
+import emailjs from '@emailjs/browser';
+import { ADMIN_EMAIL, EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID } from '@/lib/constants';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -51,24 +53,58 @@ export function CheckoutForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     
-    console.log("Order Details:", {
-        customer: values,
-        items: cartItems,
-        total: getCartTotal(),
-    });
-    
-    // Simulate API call for order placement
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast({
-      title: "Order Placed Successfully!",
-      description: "Thank you for your purchase. We will contact you shortly to confirm.",
-    });
-    
-    clearCart();
-    form.reset();
-    setIsSubmitting(false);
-    router.push('/');
+    const products_list = cartItems.map(item => 
+        `- ${item.product.name} (${item.quantity} sq.ft.) - ₹${(item.product.pricePerSqFt * item.quantity).toLocaleString('en-IN')}`
+      ).join('\n');
+    const fullAddress = `${values.address}, ${values.city}, ${values.state}`;
+    const total_cost = getCartTotal().toLocaleString('en-IN');
+
+    const templateParams = {
+        to_email: ADMIN_EMAIL,
+        customer_name: values.name,
+        customer_phone: values.phone,
+        products_list: products_list,
+        delivery_address: fullAddress,
+        payment_method: values.paymentMethod.toUpperCase(),
+        total_cost: total_cost,
+    };
+
+    try {
+      // Check if EmailJS credentials are provided and are not placeholders
+      if(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY && !EMAILJS_SERVICE_ID.includes('YOUR_')) {
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            templateParams,
+            EMAILJS_PUBLIC_KEY
+        );
+      } else {
+        console.log("EmailJS not configured. Skipping email notification.");
+        console.log("Order Details:", {
+            customer: values,
+            items: cartItems,
+            total: getCartTotal(),
+        });
+      }
+
+      toast({
+        title: "Your order has been successfully submitted.",
+      });
+      
+      clearCart();
+      form.reset();
+      router.push('/');
+
+    } catch (error) {
+        console.error('EmailJS Error:', error);
+        toast({
+            variant: "destructive",
+            title: "Order submission failed.",
+            description: "There was a problem sending the order notification. Please contact us directly.",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   }
 
   return (
