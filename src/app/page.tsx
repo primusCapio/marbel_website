@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle, Star } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { TAGLINE } from '@/lib/constants';
+import { TAGLINE, COMPANY_NAME } from '@/lib/constants';
 import { products } from '@/lib/data';
 import { ProductCard } from '@/components/products/product-card';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -19,7 +19,7 @@ export default function Home() {
       title: "Contractor",
       avatar: "RK",
       image: "",
-      text: "Saalim Store has the best quality marble I've seen. Their pan-India delivery is always on time, which is crucial for my projects. Highly recommended for bulk orders.",
+      text: "Saalim Stone has the best quality marble I've seen. Their pan-India delivery is always on time, which is crucial for my projects. Highly recommended for bulk orders.",
       rating: 5,
     },
     {
@@ -35,7 +35,7 @@ export default function Home() {
       title: "Homeowner",
       avatar: "AM",
       image: "",
-      text: "I renovated my kitchen and the Calacatta Gold Marble countertop I bought from Saalim Store is the centerpiece. The price calculator was accurate and the service was excellent.",
+      text: "I renovated my kitchen and the Calacatta Gold Marble countertop I bought from Saalim Stone is the centerpiece. The price calculator was accurate and the service was excellent.",
       rating: 5,
     }
   ]
@@ -62,7 +62,7 @@ export default function Home() {
             Discover a world of elegance with our handpicked selection of premium marble, granite, and Kota stone for projects of any scale.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg py-7 px-8">
+            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg py-7 px-8">
               <Link href="/products">
                 Shop Now <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -102,7 +102,7 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-secondary">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">Why Choose Saalim Store?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-headline">Why Choose {COMPANY_NAME}?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
               We are dedicated to providing the highest quality natural stones with unparalleled customer service.
             </p>
