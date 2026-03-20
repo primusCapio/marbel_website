@@ -13,6 +13,7 @@ import { useCart } from '@/hooks/use-cart';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Products' },
+  { href: '/advisor', label: 'AI Advisor' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
