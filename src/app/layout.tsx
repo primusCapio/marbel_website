@@ -1,12 +1,12 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 import { FloatingWhatsAppButton } from '@/components/layout/whatsapp-button';
 import { COMPANY_NAME, TAGLINE } from '@/lib/constants';
 import { CartProvider } from '@/hooks/use-cart';
 import { AuthProvider } from '@/hooks/use-auth';
+import { MainLayout } from '@/components/layout/main-layout';
 
 export const metadata: Metadata = {
   title: {
@@ -34,11 +34,9 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background text-foreground">
         <AuthProvider>
           <CartProvider>
-            <div className="relative flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </div>
+            <MainLayout>
+              {children}
+            </MainLayout>
             <FloatingWhatsAppButton />
             <Toaster />
           </CartProvider>
