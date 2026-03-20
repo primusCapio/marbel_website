@@ -16,6 +16,7 @@ const navLinks = [
   { href: '/advisor', label: 'AI Advisor' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About Us' },
+  { href: '/why-us', label: 'Why Us?' },
   { href: '/contact', label: 'Contact' },
 ];
 
