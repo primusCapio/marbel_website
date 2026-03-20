@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -39,19 +38,20 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    console.log(values);
-    // Mock successful login
-    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Determine role based on email for mock
-    const role = values.email.includes('architect') ? 'architect' : 'user';
-    
-    login(values.email, role);
+    const success = await login(values.email, values.password);
 
-    toast({
-      title: "Logged in successfully!",
-    });
-
+    if (success) {
+      toast({
+        title: "Logged in successfully!",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: "Invalid email or password.",
+      });
+    }
     setIsSubmitting(false);
   }
 

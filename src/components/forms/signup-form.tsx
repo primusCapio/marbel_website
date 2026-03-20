@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -19,6 +18,7 @@ import { useToast } from '../../hooks/use-toast';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -30,6 +30,7 @@ export function SignupForm() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const { signup } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,17 +43,24 @@ export function SignupForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    console.log(values);
-    // Mock successful signup
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const success = await signup(values.email, values.password, values.role);
+    
     setIsSubmitting(false);
 
-    toast({
-      title: "Account created successfully!",
-      description: "You can now log in with your credentials.",
-    });
-
-    router.push('/login');
+    if (success) {
+      toast({
+        title: "Account created successfully!",
+        description: "You can now log in with your credentials.",
+      });
+      router.push('/login');
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Signup Failed",
+            description: "An account with this email already exists.",
+        });
+    }
   }
 
   return (
