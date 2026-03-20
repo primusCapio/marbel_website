@@ -1,21 +1,31 @@
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Gem, Menu, ShoppingCart } from 'lucide-react';
+import { Gem, Menu, ShoppingCart, User } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { COMPANY_NAME } from '@/lib/constants';
 import { useCart } from '@/hooks/use-cart';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useState } from 'react';
+
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Products' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About Us' },
-  { href: '/why-us', label: 'Why Us?' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -23,6 +33,14 @@ export function Header() {
   const pathname = usePathname();
   const { getItemCount } = useCart();
   const itemCount = getItemCount();
+  // MOCK: Replace with actual auth state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({ name: "Architect", email: "architect@example.com", role: "architect"});
+
+  const handleLogout = () => {
+    // MOCK: implement actual logout
+    setIsLoggedIn(false);
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -57,6 +75,37 @@ export function Header() {
             )}
             <span className="sr-only">Shopping Cart</span>
           </Link>
+          
+          {isLoggedIn ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {user.role === 'architect' && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </DropdownMenuItem>
+                )}
+                 <DropdownMenuItem asChild>
+                    <Link href="#">Profile</Link>
+                  </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild variant="outline" size="sm">
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
+
 
           <div className="md:hidden">
             <Sheet>
