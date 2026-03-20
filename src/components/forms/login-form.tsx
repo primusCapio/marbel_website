@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { useToast } from '../../hooks/use-toast';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -27,7 +27,7 @@ const formSchema = z.object({
 export function LoginForm() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,18 +42,17 @@ export function LoginForm() {
     console.log(values);
     // Mock successful login
     await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
+    
+    // Determine role based on email for mock
+    const role = values.email.includes('architect') ? 'architect' : 'user';
+    
+    login(values.email, role);
 
     toast({
       title: "Logged in successfully!",
     });
 
-    // Mock role-based redirect
-    if (values.email.includes('architect')) {
-      router.push('/dashboard');
-    } else {
-      router.push('/');
-    }
+    setIsSubmitting(false);
   }
 
   return (

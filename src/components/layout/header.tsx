@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Gem, Menu, ShoppingCart, User } from 'lucide-react';
+import { Gem, Menu, ShoppingCart, User, LogOut } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useState } from 'react';
+import { useAuth } from '@/hooks/use-auth';
+import { Skeleton } from '../ui/skeleton';
 
 
 const navLinks = [
@@ -27,20 +28,14 @@ const navLinks = [
   { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
+  { href: '/why-us', label: 'Why Us?' },
 ];
 
 export function Header() {
   const pathname = usePathname();
   const { getItemCount } = useCart();
   const itemCount = getItemCount();
-  // MOCK: Replace with actual auth state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({ name: "Architect", email: "architect@example.com", role: "architect"});
-
-  const handleLogout = () => {
-    // MOCK: implement actual logout
-    setIsLoggedIn(false);
-  }
+  const { user, logout, isLoading } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -76,15 +71,21 @@ export function Header() {
             <span className="sr-only">Shopping Cart</span>
           </Link>
           
-          {isLoggedIn ? (
+          {isLoading ? (
+            <Skeleton className="h-9 w-20" />
+          ) : user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" className='gap-2'>
                   <User className="h-5 w-5" />
+                  <span className="hidden md:inline">{user.role === 'architect' ? 'Architect' : 'User'}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuContent align="end" className='w-56'>
+                <DropdownMenuLabel>
+                  <p>My Account</p>
+                  <p className='text-xs text-muted-foreground font-normal'>{user.email}</p>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {user.role === 'architect' && (
                   <DropdownMenuItem asChild>
@@ -95,8 +96,9 @@ export function Header() {
                     <Link href="#">Profile</Link>
                   </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  Logout
+                <DropdownMenuItem onClick={logout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
