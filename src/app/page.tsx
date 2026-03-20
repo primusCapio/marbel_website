@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Quote } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -53,7 +53,7 @@ export default function Home() {
             data-ai-hint={heroImage.imageHint}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
           <h1 className="text-4xl md:text-6xl font-extrabold font-headline tracking-tight">
             {TAGLINE}
@@ -108,28 +108,28 @@ export default function Home() {
             </p>
             <div className="grid md:grid-cols-3 gap-8 mt-12 text-left">
               <div className="flex items-start">
-                <CheckCircle className="h-8 w-8 text-accent mr-4 mt-1 flex-shrink-0" />
+                <CheckCircle className="h-8 w-8 text-primary mr-4 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-lg">Premium Quality Selection</h3>
                   <p className="text-muted-foreground">Hand-sourced from the world's best quarries for exceptional beauty and durability.</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <CheckCircle className="h-8 w-8 text-accent mr-4 mt-1 flex-shrink-0" />
+                <CheckCircle className="h-8 w-8 text-primary mr-4 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-lg">Competitive Pricing</h3>
                   <p className="text-muted-foreground">Transparent, fair pricing for homeowners, contractors, and architects alike.</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <CheckCircle className="h-8 w-8 text-accent mr-4 mt-1 flex-shrink-0" />
+                <CheckCircle className="h-8 w-8 text-primary mr-4 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-lg">Pan-India Delivery</h3>
                   <p className="text-muted-foreground">Reliable and timely delivery network ensures your materials arrive safely, anywhere in India.</p>
                 </div>
               </div>
             </div>
-             <Button asChild size="lg" variant="link" className="px-0 mt-8 text-accent text-lg">
+             <Button asChild size="lg" variant="link" className="px-0 mt-8 text-primary text-lg">
                   <Link href="/about">
                       Learn more about us <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
@@ -148,7 +148,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             {testimonials.map((testimonial, i) => (
-              <Card key={i} className="flex flex-col">
+              <Card key={i} className="flex flex-col border-0 shadow-none bg-secondary/50">
                 <CardHeader className="flex-row items-center gap-4">
                   <Avatar>
                     <AvatarImage src={testimonial.image} alt={testimonial.name} />
@@ -159,8 +159,9 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground">{testimonial.title}</p>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-muted-foreground italic">"{testimonial.text}"</p>
+                <CardContent className="flex-grow relative pt-0">
+                  <Quote className="absolute top-0 left-0 h-12 w-12 text-primary/10" />
+                  <p className="text-muted-foreground italic z-10 relative pl-4">"{testimonial.text}"</p>
                 </CardContent>
                 <CardFooter>
                   <div className="flex gap-1">
