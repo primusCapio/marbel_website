@@ -1,5 +1,6 @@
-import { FeaturePlaceholder } from "@/components/dashboard/placeholder";
-import { DollarSign } from "lucide-react";
+import { CostAnalyzer } from '@/components/dashboard/cost-analyzer';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DollarSign } from 'lucide-react';
 
 export const metadata = {
     title: 'Cost Breakdown Analyzer',
@@ -8,10 +9,22 @@ export const metadata = {
 
 export default function CostAnalyzerPage() {
     return (
-       <FeaturePlaceholder 
-            title="Cost Breakdown Analyzer"
-            description="Get a clear picture of your project expenses. This tool will provide a detailed breakdown of costs, including materials, transport, and estimated installation, helping you manage budgets effectively."
-            icon={DollarSign}
-       />
-    )
+        <div>
+            <h1 className="text-3xl md:text-4xl font-extrabold font-headline mb-8 flex items-center gap-3">
+                <DollarSign className="h-8 w-8" />
+                Cost Breakdown Analyzer
+            </h1>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Project Cost Analyzer</CardTitle>
+                    <CardDescription>
+                        Enter your project costs to see a detailed breakdown and visualize your budget allocation.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <CostAnalyzer />
+                </CardContent>
+            </Card>
+        </div>
+    );
 }
