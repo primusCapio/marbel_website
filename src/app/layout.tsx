@@ -7,6 +7,7 @@ import { COMPANY_NAME, TAGLINE } from '@/lib/constants';
 import { CartProvider } from '@/hooks/use-cart';
 import { AuthProvider } from '@/hooks/use-auth';
 import { MainLayout } from '@/components/layout/main-layout';
+import { ProjectsProvider } from '@/hooks/use-projects';
 
 export const metadata: Metadata = {
   title: {
@@ -34,11 +35,13 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background text-foreground">
         <AuthProvider>
           <CartProvider>
-            <MainLayout>
-              {children}
-            </MainLayout>
-            <FloatingWhatsAppButton />
-            <Toaster />
+            <ProjectsProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
+              <FloatingWhatsAppButton />
+              <Toaster />
+            </ProjectsProvider>
           </CartProvider>
         </AuthProvider>
       </body>
