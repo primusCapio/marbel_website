@@ -84,7 +84,7 @@ export function Sidebar() {
                         </AvatarFallback>
                     </Avatar>
                     <div className='flex flex-col'>
-                        <span className='text-sm font-medium'>Admin</span>
+                        <span className='text-sm font-medium'>{user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span>
                         <span className='text-xs text-muted-foreground truncate'>{user.email}</span>
                     </div>
                 </div>

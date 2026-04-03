@@ -87,7 +87,7 @@ export function Header() {
                   <p className='text-xs text-muted-foreground font-normal'>{user.email}</p>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {(user.role === 'admin' || user.role === 'architect') && (
+                {(user.role === 'admin' || user.role === 'architect' || user.role === 'contractor') && (
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">Dashboard</Link>
                   </DropdownMenuItem>

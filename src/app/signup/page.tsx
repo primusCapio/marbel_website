@@ -1,4 +1,5 @@
 
+
 import { SignupForm } from "@/components/forms/signup-form";
 import {
   Card,
@@ -10,8 +11,8 @@ import {
 import Link from "next/link";
 
 export const metadata = {
-  title: "Architect Sign Up",
-  description: "Create a new architect account.",
+  title: "Create a Professional Account",
+  description: "Join our platform to unlock exclusive tools for professionals.",
 };
 
 export default function SignupPage() {
@@ -20,9 +21,9 @@ export default function SignupPage() {
       <div className="max-w-md mx-auto">
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl">Create Architect Account</CardTitle>
+            <CardTitle className="text-3xl">Create a Professional Account</CardTitle>
             <CardDescription>
-              Join our platform to unlock exclusive tools for architects.
+              Join our platform to unlock exclusive tools for professionals.
             </CardDescription>
           </CardHeader>
           <CardContent>
