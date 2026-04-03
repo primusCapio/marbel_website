@@ -16,6 +16,7 @@ import {
   Gem,
   LogOut,
   User,
+  CreditCard,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { COMPANY_NAME } from '@/lib/constants';
@@ -31,6 +32,7 @@ const navLinks = [
     { href: '/dashboard/boq-generator', label: 'BOQ Generator', icon: FileText },
     { href: '/dashboard/cost-analyzer', label: 'Cost Analyzer', icon: DollarSign },
     { href: '/dashboard/bulk-order', label: 'Bulk Order', icon: PackageCheck },
+    { href: '/dashboard/billing', label: 'Billing', icon: CreditCard },
     { href: '/dashboard/stock-reservation', label: 'Stock Reservation', icon: Package },
     { href: '/dashboard/specs', label: 'Tech Specs', icon: FileText },
     { href: '/dashboard/delivery', label: 'Delivery Schedule', icon: CalendarClock },

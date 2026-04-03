@@ -8,6 +8,7 @@ import { CartProvider } from '@/hooks/use-cart';
 import { AuthProvider } from '@/hooks/use-auth';
 import { MainLayout } from '@/components/layout/main-layout';
 import { ProjectsProvider } from '@/hooks/use-projects';
+import { BillingProvider } from '@/hooks/use-billing';
 
 export const metadata: Metadata = {
   title: {
@@ -36,11 +37,13 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <ProjectsProvider>
-              <MainLayout>
-                {children}
-              </MainLayout>
-              <FloatingWhatsAppButton />
-              <Toaster />
+              <BillingProvider>
+                <MainLayout>
+                  {children}
+                </MainLayout>
+                <FloatingWhatsAppButton />
+                <Toaster />
+              </BillingProvider>
             </ProjectsProvider>
           </CartProvider>
         </AuthProvider>

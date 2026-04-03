@@ -39,3 +39,37 @@ export type Project = {
   deliveryCity: string;
   createdAt: string;
 };
+
+// Billing System Types
+export interface InvoiceItem {
+  productId: string;
+  productName: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+export const paymentModes = ["Cash", "UPI", "Card", "Bank Transfer"] as const;
+export type PaymentMode = (typeof paymentModes)[number];
+
+export const paymentStatuses = ["Paid", "Pending", "Partial"] as const;
+export type PaymentStatus = (typeof paymentStatuses)[number];
+
+export interface InvoiceData {
+  customerName: string;
+  customerAddress: string;
+  items: InvoiceItem[];
+  subtotal: number;
+  discount: number;
+  tax: number;
+  additionalCharges: number;
+  total: number;
+  paymentMode: PaymentMode;
+  paymentStatus: PaymentStatus;
+}
+
+export interface Invoice extends InvoiceData {
+  id: string;
+  invoiceNumber: string;
+  date: string;
+}
