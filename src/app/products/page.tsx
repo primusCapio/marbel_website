@@ -1,20 +1,87 @@
+'use client';
+
+import { useState, useMemo } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { products } from "@/lib/data"
 import { ProductCard } from "@/components/products/product-card"
 import type { Category } from "@/lib/types"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const categories: Category[] = ["Marble", "Granite", "Kota Stone"];
-const finishes = ["Polished", "Honed", "Leathered", "Brushed", "Natural"];
-const colors = ["White", "Black", "Green", "Blue", "Brown", "Gold", "Grey"];
-
-export const metadata = {
-  title: 'Our Products',
-  description: 'Browse our collection of premium Marble, Granite, and Kota Stone.',
-}
+const finishes = [...new Set(products.map(p => p.finish))];
+const colors = [...new Set(products.map(p => p.color))];
 
 export default function ProductsPage() {
+  const [selectedColor, setSelectedColor] = useState('all');
+  const [selectedFinish, setSelectedFinish] = useState('all');
+  const [sortOrder, setSortOrder] = useState('default');
+
+  const filteredProducts = useMemo(() => {
+    let filtered = [...products];
+
+    if (selectedColor !== 'all') {
+      filtered = filtered.filter(p => p.color === selectedColor);
+    }
+    if (selectedFinish !== 'all') {
+      filtered = filtered.filter(p => p.finish === selectedFinish);
+    }
+
+    if (sortOrder === 'low-high') {
+      filtered.sort((a, b) => a.pricePerSqFt - b.pricePerSqFt);
+    } else if (sortOrder === 'high-low') {
+      filtered.sort((a, b) => b.pricePerSqFt - a.pricePerSqFt);
+    }
+
+    return filtered;
+  }, [selectedColor, selectedFinish, sortOrder]);
+
+  const handleResetFilters = () => {
+    setSelectedColor('all');
+    setSelectedFinish('all');
+    setSortOrder('default');
+  }
+
+  const filtersApplied = selectedColor !== 'all' || selectedFinish !== 'all' || sortOrder !== 'default';
+
+  const renderFilters = (isMobile = false) => (
+    <>
+      <Select value={selectedColor} onValueChange={setSelectedColor}>
+        <SelectTrigger className={cn(!isMobile && "w-[180px]")}>
+          <SelectValue placeholder="Color" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All Colors</SelectItem>
+          {colors.map(color => <SelectItem key={color} value={color}>{color}</SelectItem>)}
+        </SelectContent>
+      </Select>
+      <Select value={selectedFinish} onValueChange={setSelectedFinish}>
+        <SelectTrigger className={cn(!isMobile && "w-[180px]")}>
+          <SelectValue placeholder="Finish" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All Finishes</SelectItem>
+          {finishes.map(finish => <SelectItem key={finish} value={finish}>{finish}</SelectItem>)}
+        </SelectContent>
+      </Select>
+      <Select value={sortOrder} onValueChange={setSortOrder}>
+        <SelectTrigger className={cn(!isMobile && "w-[180px]")}>
+          <SelectValue placeholder="Price" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="default">Default</SelectItem>
+          <SelectItem value="low-high">Low to High</SelectItem>
+          <SelectItem value="high-low">High to Low</SelectItem>
+        </SelectContent>
+      </Select>
+      {filtersApplied && (
+        <Button variant="ghost" onClick={handleResetFilters}>Reset</Button>
+      )}
+    </>
+  );
+
   return (
     <div className="container py-12 md:py-16">
       <div className="text-center max-w-3xl mx-auto">
@@ -28,31 +95,7 @@ export default function ProductsPage() {
         {/* Desktop Filters */}
         <div className="hidden md:flex flex-wrap gap-4 items-center justify-center p-4 border-b">
           <span className="font-semibold">Filter by:</span>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Color" />
-            </SelectTrigger>
-            <SelectContent>
-              {colors.map(color => <SelectItem key={color} value={color}>{color}</SelectItem>)}
-            </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Finish" />
-            </SelectTrigger>
-            <SelectContent>
-              {finishes.map(finish => <SelectItem key={finish} value={finish}>{finish}</SelectItem>)}
-            </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Price" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="low-high">Low to High</SelectItem>
-              <SelectItem value="high-low">High to Low</SelectItem>
-            </SelectContent>
-          </Select>
+          {renderFilters()}
         </div>
 
         {/* Mobile Filters */}
@@ -61,25 +104,9 @@ export default function ProductsPage() {
             <AccordionItem value="filters">
               <AccordionTrigger className="text-lg font-semibold">Filters</AccordionTrigger>
               <AccordionContent className="space-y-4 p-2">
-                <Select>
-                  <SelectTrigger><SelectValue placeholder="Color" /></SelectTrigger>
-                  <SelectContent>
-                     {colors.map(color => <SelectItem key={color} value={color}>{color}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                <Select>
-                  <SelectTrigger><SelectValue placeholder="Finish" /></SelectTrigger>
-                  <SelectContent>
-                     {finishes.map(finish => <SelectItem key={finish} value={finish}>{finish}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                 <Select>
-                  <SelectTrigger><SelectValue placeholder="Price" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low-high">Low to High</SelectItem>
-                    <SelectItem value="high-low">High to Low</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="flex flex-col space-y-4">
+                  {renderFilters(true)}
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -93,17 +120,24 @@ export default function ProductsPage() {
           ))}
         </TabsList>
 
-        {categories.map((category) => (
-          <TabsContent key={category} value={category} className="mt-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products
-                .filter((product) => product.category === category)
-                .map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
-          </TabsContent>
-        ))}
+        {categories.map((category) => {
+          const categoryProducts = filteredProducts.filter((product) => product.category === category)
+          return (
+            <TabsContent key={category} value={category} className="mt-8">
+              {categoryProducts.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {categoryProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20 text-muted-foreground col-span-full">
+                  No products match your criteria in this category.
+                </div>
+              )}
+            </TabsContent>
+          )
+        })}
       </Tabs>
     </div>
   );
