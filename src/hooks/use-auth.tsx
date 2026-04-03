@@ -24,14 +24,34 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const defaultArchitect: MockDbUser = {
+  email: 'architect@example.com',
+  password: 'architect123',
+  role: 'architect',
+};
+
 // Helper to interact with our mock user database in localStorage
 const getMockUsers = (): MockDbUser[] => {
   if (typeof window === 'undefined') return [];
   try {
-    const users = localStorage.getItem('mock_users');
-    return users ? JSON.parse(users) : [];
+    const usersJSON = localStorage.getItem('mock_users');
+    if (!usersJSON) {
+      // If no users exist, seed with the default architect
+      setMockUsers([defaultArchitect]);
+      return [defaultArchitect];
+    }
+    const users = JSON.parse(usersJSON);
+    // Ensure the default architect is always present
+    if (!users.find((u: MockDbUser) => u.email === defaultArchitect.email)) {
+      const updatedUsers = [...users, defaultArchitect];
+      setMockUsers(updatedUsers);
+      return updatedUsers;
+    }
+    return users;
   } catch (e) {
-    return [];
+    // If there's an error parsing, reset with the default architect
+    setMockUsers([defaultArchitect]);
+    return [defaultArchitect];
   }
 };
 
@@ -47,6 +67,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
+    // Ensure mock users are initialized on load
+    getMockUsers();
+    
     // Check for user in localStorage on initial load
     try {
       const storedUser = localStorage.getItem('user');
@@ -74,8 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password?: string): Promise<boolean> => {
     if (typeof window === 'undefined') return false;
     const users = getMockUsers();
-    // NOTE: In this mock implementation, we are not checking the password.
-    const foundUser = users.find(u => u.email === email);
+    // Check for both email and password
+    const foundUser = users.find(u => u.email === email && u.password === password);
 
     if (foundUser) {
       const userData = { email: foundUser.email, role: foundUser.role };
