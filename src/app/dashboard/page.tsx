@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Briefcase, Package, Users, IndianRupee } from "lucide-react";
 import {
@@ -9,11 +11,6 @@ import {
   Legend,
   Bar,
 } from "recharts";
-
-export const metadata = {
-  title: 'Admin Dashboard',
-  description: 'Manage your sales, products, and users.',
-}
 
 const salesData = [
   { month: 'Jan', sales: 400000 },
