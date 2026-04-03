@@ -10,8 +10,8 @@ import {
 import Link from "next/link";
 
 export const metadata = {
-  title: "Sign Up",
-  description: "Create a new account.",
+  title: "Architect Sign Up",
+  description: "Create a new architect account.",
 };
 
 export default function SignupPage() {
@@ -20,9 +20,9 @@ export default function SignupPage() {
       <div className="max-w-md mx-auto">
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl">Create an Account</CardTitle>
+            <CardTitle className="text-3xl">Create Architect Account</CardTitle>
             <CardDescription>
-              Join our platform to unlock exclusive features.
+              Join our platform to unlock exclusive tools for architects.
             </CardDescription>
           </CardHeader>
           <CardContent>

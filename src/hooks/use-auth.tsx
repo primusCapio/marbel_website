@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 // This is a mock user type for the client-side implementation
 interface MockUser {
   email: string;
-  role: 'user' | 'admin';
+  role: 'architect' | 'admin';
 }
 
 // This is a mock database user type
@@ -16,7 +16,7 @@ interface MockDbUser extends MockUser {
 
 interface AuthContextType {
   user: MockUser | null;
-  signup: (email: string, password?: string, role?: 'user' | 'admin') => Promise<boolean>;
+  signup: (email: string, password?: string) => Promise<boolean>;
   login: (email: string, password?: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
@@ -83,13 +83,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const signup = async (email: string, password?: string, role: 'user' | 'admin' = 'user'): Promise<boolean> => {
+  const signup = async (email: string, password?: string): Promise<boolean> => {
     if (typeof window === 'undefined') return false;
     const users = getMockUsers();
     if (users.find(u => u.email === email)) {
       return false; // User already exists
     }
-    users.push({ email, password, role });
+    users.push({ email, password, role: 'architect' });
     setMockUsers(users);
     return true;
   };
@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const userData = { email: foundUser.email, role: foundUser.role };
       localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
-      if (userData.role === 'admin') {
+      if (userData.role === 'admin' || userData.role === 'architect') {
         router.push('/dashboard');
       } else {
         router.push('/');

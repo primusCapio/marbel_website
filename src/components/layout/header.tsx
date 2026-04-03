@@ -78,7 +78,7 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className='gap-2'>
                   <User className="h-5 w-5" />
-                  <span className="hidden md:inline">{user.role === 'admin' ? 'Admin' : 'User'}</span>
+                  <span className="hidden md:inline">{user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className='w-56'>
@@ -87,7 +87,7 @@ export function Header() {
                   <p className='text-xs text-muted-foreground font-normal'>{user.email}</p>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {user.role === 'admin' && (
+                {(user.role === 'admin' || user.role === 'architect') && (
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">Dashboard</Link>
                   </DropdownMenuItem>

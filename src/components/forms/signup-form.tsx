@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '../../hooks/use-toast';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
@@ -23,7 +22,6 @@ import { useAuth } from '@/hooks/use-auth';
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
-  role: z.enum(["user", "admin"], { required_error: "Please select a role."}),
 })
 
 export function SignupForm() {
@@ -37,14 +35,13 @@ export function SignupForm() {
     defaultValues: {
       email: "",
       password: "",
-      role: "user",
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     
-    const success = await signup(values.email, values.password, values.role);
+    const success = await signup(values.email, values.password);
     
     setIsSubmitting(false);
 
@@ -87,40 +84,6 @@ export function SignupForm() {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="••••••••" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>I am a...</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex items-center space-x-4"
-                >
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="user" id="user" />
-                    </FormControl>
-                    <FormLabel htmlFor="user" className="font-normal">
-                      Normal User
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="admin" id="admin" />
-                    </FormControl>
-                    <FormLabel htmlFor="admin" className="font-normal">
-                      Admin
-                    </FormLabel>
-                  </FormItem>
-                </RadioGroup>
               </FormControl>
               <FormMessage />
             </FormItem>
