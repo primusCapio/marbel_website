@@ -6,7 +6,7 @@ import { CreateProjectDialog } from "@/components/dashboard/create-project-dialo
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ProjectStatus } from "@/lib/types";
+import { ProjectStatus, ProjectUrgency, projectStatuses } from "@/lib/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { projectStatuses } from "@/lib/types";
 
 const statusBadgeVariant: Record<ProjectStatus, 'default' | 'secondary' | 'outline' | 'success' | 'destructive'> = {
   'Draft': 'outline',
@@ -26,6 +25,12 @@ const statusBadgeVariant: Record<ProjectStatus, 'default' | 'secondary' | 'outli
   'Confirmed': 'success',
   'Delivered': 'success',
   'Completed': 'outline',
+};
+
+const urgencyBadgeVariant: Record<ProjectUrgency, 'default' | 'secondary' | 'destructive'> = {
+  'Low': 'secondary',
+  'Medium': 'default',
+  'High': 'destructive',
 };
 
 export default function ProjectsPage() {
@@ -74,7 +79,22 @@ export default function ProjectsPage() {
                             <CardContent className="flex-grow space-y-3 text-sm">
                                 <p><strong>Location:</strong> {project.siteLocation}</p>
                                 <p><strong>Delivery City:</strong> {project.deliveryCity}</p>
-                                <p><strong>Area:</strong> {project.areaRequired} sq.ft.</p>
+                                
+                                {project.length && project.breadth && project.unit ? (
+                                <>
+                                    <p><strong>Dimensions:</strong> {project.length} x {project.breadth} {project.unit}</p>
+                                    <p><strong>Area:</strong> {(project.unit === 'in' ? (project.length * project.breadth) / 144 : project.length * project.breadth).toFixed(2)} sq.ft.</p>
+                                </>
+                                ) : project.areaRequired ? (
+                                    <p><strong>Area:</strong> {project.areaRequired} sq.ft.</p>
+                                ) : null}
+
+                                {project.shape && <p><strong>Shape:</strong> {project.shape}</p>}
+                                
+                                {project.urgency && (
+                                    <p><strong>Urgency:</strong> <Badge variant={urgencyBadgeVariant[project.urgency]}>{project.urgency}</Badge></p>
+                                )}
+
                                 {project.timeline && <p><strong>Timeline:</strong> {project.timeline}</p>}
                                 <p className="text-xs text-muted-foreground pt-2">
                                     Created: {new Date(project.createdAt).toLocaleDateString()}

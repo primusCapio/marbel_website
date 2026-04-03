@@ -26,12 +26,18 @@ import {
 import { useState } from 'react';
 import { Loader2, PlusCircle } from 'lucide-react';
 import { useProjects } from '@/hooks/use-projects';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { projectShapes, projectUrgencies } from '@/lib/types';
 
 const formSchema = z.object({
   projectName: z.string().min(3, { message: "Project name must be at least 3 characters." }),
   siteLocation: z.string().min(3, { message: "Site location is required." }),
   clientName: z.string().min(2, { message: "Client name is required." }),
-  areaRequired: z.coerce.number().min(1, { message: "Area must be greater than 0." }),
+  length: z.coerce.number().min(0.1, { message: "Length must be a positive number." }),
+  breadth: z.coerce.number().min(0.1, { message: "Breadth must be a positive number." }),
+  unit: z.enum(["ft", "in"]),
+  shape: z.enum(projectShapes),
+  urgency: z.enum(projectUrgencies),
   timeline: z.string().optional(),
   deliveryCity: z.string().min(2, { message: "Delivery city is required." }),
 })
@@ -47,7 +53,11 @@ export function CreateProjectDialog() {
       projectName: "",
       siteLocation: "",
       clientName: "",
-      areaRequired: 0,
+      length: 0,
+      breadth: 0,
+      unit: "ft",
+      shape: "Rectangle",
+      urgency: "Medium",
       timeline: "",
       deliveryCity: "",
     },
@@ -70,7 +80,7 @@ export function CreateProjectDialog() {
           Create New Project
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Create New Project</DialogTitle>
           <DialogDescription>
@@ -125,30 +135,104 @@ export function CreateProjectDialog() {
                     )}
                     />
                 </div>
-                 <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                     <FormField
-                    control={form.control}
-                    name="areaRequired"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Area (sq.ft.)</FormLabel>
-                        <FormControl><Input type="number" placeholder="e.g., 2000" {...field} /></FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
+                        control={form.control}
+                        name="shape"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Shape</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a shape" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {projectShapes.map(shape => <SelectItem key={shape} value={shape}>{shape}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
                     <FormField
-                    control={form.control}
-                    name="timeline"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Timeline (Optional)</FormLabel>
-                        <FormControl><Input placeholder="e.g., 3 months" {...field} /></FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
+                        control={form.control}
+                        name="urgency"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Urgency</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select urgency" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {projectUrgencies.map(urgency => <SelectItem key={urgency} value={urgency}>{urgency}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
                 </div>
+                <div className="grid grid-cols-3 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="length"
+                        render={({ field }) => (
+                            <FormItem className="col-span-1">
+                                <FormLabel>Length</FormLabel>
+                                <FormControl><Input type="number" placeholder="e.g., 10" {...field} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="breadth"
+                        render={({ field }) => (
+                            <FormItem className="col-span-1">
+                                <FormLabel>Breadth</FormLabel>
+                                <FormControl><Input type="number" placeholder="e.g., 12" {...field} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="unit"
+                        render={({ field }) => (
+                            <FormItem className="col-span-1">
+                                <FormLabel>Unit</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Unit" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="ft">Feet</SelectItem>
+                                        <SelectItem value="in">Inches</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <FormField
+                control={form.control}
+                name="timeline"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Timeline (Optional)</FormLabel>
+                    <FormControl><Input placeholder="e.g., 3 months" {...field} /></FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">
