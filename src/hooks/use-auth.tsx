@@ -26,7 +26,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const defaultAdmin: MockDbUser = {
   email: 'saalim@gmail.com',
-  password: '123',
+  password: '123456',
   role: 'admin',
 };
 
@@ -41,11 +41,17 @@ const getMockUsers = (): MockDbUser[] => {
       return [defaultAdmin];
     }
     const users = JSON.parse(usersJSON);
-    // Ensure the default admin is always present
-    if (!users.find((u: MockDbUser) => u.email === defaultAdmin.email)) {
+    const adminExists = users.find((u: MockDbUser) => u.email === defaultAdmin.email);
+    
+    // Ensure the default admin is always present and has the correct password
+    if (!adminExists) {
       const updatedUsers = [...users, defaultAdmin];
       setMockUsers(updatedUsers);
       return updatedUsers;
+    } else if (adminExists.password !== defaultAdmin.password) {
+        const updatedUsers = users.map((u: MockDbUser) => u.email === defaultAdmin.email ? defaultAdmin : u);
+        setMockUsers(updatedUsers);
+        return updatedUsers;
     }
     return users;
   } catch (e) {
@@ -67,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Ensure mock users are initialized on load
+    // Ensure mock users are initialized on load and admin password is correct
     getMockUsers();
     
     // Check for user in localStorage on initial load
