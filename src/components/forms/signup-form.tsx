@@ -23,7 +23,7 @@ import { useAuth } from '@/hooks/use-auth';
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
-  role: z.enum(["user", "architect"], { required_error: "Please select a role."}),
+  role: z.enum(["user", "admin"], { required_error: "Please select a role."}),
 })
 
 export function SignupForm() {
@@ -114,10 +114,10 @@ export function SignupForm() {
                   </FormItem>
                   <FormItem className="flex items-center space-x-2 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="architect" id="architect" />
+                      <RadioGroupItem value="admin" id="admin" />
                     </FormControl>
-                    <FormLabel htmlFor="architect" className="font-normal">
-                      Architect
+                    <FormLabel htmlFor="admin" className="font-normal">
+                      Admin
                     </FormLabel>
                   </FormItem>
                 </RadioGroup>

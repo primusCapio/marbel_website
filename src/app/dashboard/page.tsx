@@ -2,18 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Briefcase, FileText, Square } from "lucide-react";
 
 export const metadata = {
-  title: 'Architect Dashboard',
+  title: 'Admin Workspace',
   description: 'Manage your projects, plans, and materials.',
 }
 
 export default function DashboardPage() {
     return (
         <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold font-headline mb-8">Architect Dashboard</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold font-headline mb-8">Admin Workspace</h1>
             <div className="space-y-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Welcome, Architect!</CardTitle>
+                        <CardTitle>Welcome, Admin!</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-muted-foreground">

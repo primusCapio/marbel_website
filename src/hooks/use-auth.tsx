@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 // This is a mock user type for the client-side implementation
 interface MockUser {
   email: string;
-  role: 'user' | 'architect';
+  role: 'user' | 'admin';
 }
 
 // This is a mock database user type
@@ -16,7 +16,7 @@ interface MockDbUser extends MockUser {
 
 interface AuthContextType {
   user: MockUser | null;
-  signup: (email: string, password?: string, role?: 'user' | 'architect') => Promise<boolean>;
+  signup: (email: string, password?: string, role?: 'user' | 'admin') => Promise<boolean>;
   login: (email: string, password?: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
@@ -24,10 +24,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const defaultArchitect: MockDbUser = {
+const defaultAdmin: MockDbUser = {
   email: 'architect@example.com',
   password: 'architect123',
-  role: 'architect',
+  role: 'admin',
 };
 
 // Helper to interact with our mock user database in localStorage
@@ -36,22 +36,22 @@ const getMockUsers = (): MockDbUser[] => {
   try {
     const usersJSON = localStorage.getItem('mock_users');
     if (!usersJSON) {
-      // If no users exist, seed with the default architect
-      setMockUsers([defaultArchitect]);
-      return [defaultArchitect];
+      // If no users exist, seed with the default admin
+      setMockUsers([defaultAdmin]);
+      return [defaultAdmin];
     }
     const users = JSON.parse(usersJSON);
-    // Ensure the default architect is always present
-    if (!users.find((u: MockDbUser) => u.email === defaultArchitect.email)) {
-      const updatedUsers = [...users, defaultArchitect];
+    // Ensure the default admin is always present
+    if (!users.find((u: MockDbUser) => u.email === defaultAdmin.email)) {
+      const updatedUsers = [...users, defaultAdmin];
       setMockUsers(updatedUsers);
       return updatedUsers;
     }
     return users;
   } catch (e) {
-    // If there's an error parsing, reset with the default architect
-    setMockUsers([defaultArchitect]);
-    return [defaultArchitect];
+    // If there's an error parsing, reset with the default admin
+    setMockUsers([defaultAdmin]);
+    return [defaultAdmin];
   }
 };
 
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const signup = async (email: string, password?: string, role: 'user' | 'architect' = 'user'): Promise<boolean> => {
+  const signup = async (email: string, password?: string, role: 'user' | 'admin' = 'user'): Promise<boolean> => {
     if (typeof window === 'undefined') return false;
     const users = getMockUsers();
     if (users.find(u => u.email === email)) {
@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const userData = { email: foundUser.email, role: foundUser.role };
       localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
-      if (userData.role === 'architect') {
+      if (userData.role === 'admin') {
         router.push('/dashboard');
       } else {
         router.push('/');
