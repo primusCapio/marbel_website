@@ -17,6 +17,9 @@ import {
   LogOut,
   User,
   CreditCard,
+  Warehouse,
+  ClipboardList,
+  Users as UsersIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { COMPANY_NAME } from '@/lib/constants';
@@ -26,13 +29,20 @@ import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 
 const navLinks = [
+    // Main Admin
     { href: '/dashboard', label: 'Overview', icon: LayoutGrid, exact: true },
+    { href: '/dashboard/products', label: 'Products', icon: Package },
+    { href: '/dashboard/inventory', label: 'Inventory', icon: Warehouse },
+    { href: '/dashboard/orders', label: 'Orders', icon: ClipboardList },
+    { href: '/dashboard/billing', label: 'Billing System', icon: CreditCard },
+    { href: '/dashboard/users', label: 'Users', icon: UsersIcon },
+    // Architect Tools
     { href: '/dashboard/projects', label: 'Projects', icon: Briefcase },
     { href: '/dashboard/slab-planner', label: 'Slab Planner', icon: Square },
     { href: '/dashboard/boq-generator', label: 'BOQ Generator', icon: FileText },
     { href: '/dashboard/cost-analyzer', label: 'Cost Analyzer', icon: DollarSign },
+    // General
     { href: '/dashboard/bulk-order', label: 'Bulk Order', icon: PackageCheck },
-    { href: '/dashboard/billing', label: 'Billing', icon: CreditCard },
     { href: '/dashboard/stock-reservation', label: 'Stock Reservation', icon: Package },
     { href: '/dashboard/specs', label: 'Tech Specs', icon: FileText },
     { href: '/dashboard/delivery', label: 'Delivery Schedule', icon: CalendarClock },
@@ -59,7 +69,7 @@ export function Sidebar() {
             href={link.href}
             className={cn(
               'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/5',
-              (link.exact ? pathname === link.href : pathname === link.href || (pathname.startsWith(link.href) && link.href !== '/dashboard')) && 'bg-primary/10 text-primary font-medium'
+              (link.exact ? pathname === link.href : pathname.startsWith(link.href)) && 'bg-primary/10 text-primary font-medium'
             )}
           >
             <link.icon className="h-4 w-4" />
